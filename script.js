@@ -40,17 +40,17 @@ function turn(squareId, player){
 	if (gameWon) gameOver(gameWon);
 }
 
-function checkWin(board, player) { //board es la info dle tablero actual y player es el q hizo la ultima jugada
-	let plays = board.reduce((a,e,i) => (e === player)) ? a.concat(i) : a, []); //repasar arrow functions y ternary operator y q hace el metodo "reduce"
+function checkWin(board, player) { //board es la info del tablero actual y player es el q hizo la ultima jugada
+	let plays = board.reduce((a,e,i) => (e === player) ? a.concat(i) : a, []); 
+	//plays es un array que guarda donde jugo el jugador
 	let gameWon = null;
-	for (let [index, win] of winCombos.entries()) {
-		if (win.every(elem => plays.indexOf(elem > -1)) {
-			gameWon = {index: index, player: player};
-		break;
-		})
-	}
+	for (let [index, win] of winCombos.entries()) { //creas una matriz, con index y los array triunfadores. con entries recorres todo el array
+		if (win.every((elem) => plays.indexOf(elem > -1))) { // ¿> -1? entonces es un numero, has the player plays en all the spots del winCombo?
+			gameWon = {index: index, player: player}; //gano el player!
+		break;}
+	
 	return gameWon;
-
+	}
 }
 
 /*
@@ -62,6 +62,16 @@ const moli = (x, y) => (x+y);  console.log(moli(1,2) )
 ternary operator:
 "La Cuota es de:  " + (isMember ? "$2.00" : "$10.00")
 
+array.reduce(myFunc, [])
+fucntion myFunc(a,e,i){
+	if(e === player){
+		return a.concat(i);
+	}
+	else{
+		return a
+	}
+}
+reduce parece ser una función recurrente que toma un valor acumulator y un valor corriente
 
 
 */
