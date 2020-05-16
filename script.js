@@ -1,5 +1,5 @@
 var origBoard; //debe ser el tablero vacio
-const huPlayer = '0'; //human player
+const huPlayer = 'O'; //human player
 const aiPlayer = 'X'; //AI player
 const winCombos = [ //combos ganadores
 	[0, 1, 2],
@@ -43,14 +43,30 @@ function turn(squareId, player){
 function checkWin(board, player) { //board es la info del tablero actual y player es el q hizo la ultima jugada
 	let plays = board.reduce((a,e,i) => (e === player) ? a.concat(i) : a, []); 
 	//plays es un array que guarda donde jugo el jugador
+
 	let gameWon = null;
-	for (let [index, win] of winCombos.entries()) { //creas una matriz, con index y los array triunfadores. con entries recorres todo el array
-		if (win.every((elem) => plays.indexOf(elem > -1))) { // ¿> -1? entonces es un numero, has the player plays en all the spots del winCombo?
-			gameWon = {index: index, player: player}; //gano el player!
-		break;}
 	
-	return gameWon;
-	}
+/*
+sentencia for of: for ("index" of "objeto iterable"), 
+ejecuta un bloque decodigo por cada elemento del objeto iterable
+
+for (i of "moli"){
+	i = i+e;
+	consolelog(i)
+}
+Devuelve: me, oe, le, ie
+
+metodo entries: es usado para retornar un array que consiste en las propiedades
+
+*/
+
+	for (let [index, win] of winCombos.entries()) { //creas una matriz, con index y los array triunfadores. con entries recorres todo el array
+//every: determina si todos los elementos en el array y ejecuta una función (con una condicion)
+		if (win.every(elem => plays.indexOf(elem) > -1)) { //es una funcion de busqueda que devuelve -1 si no encontro el valor o el valor del indice donde esta la palabra
+			gameWon = {index: index, player: player}; //gano el player!
+			break;}	
+		return gameWon;
+		}
 }
 
 /*
