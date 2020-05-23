@@ -29,7 +29,13 @@ function startGame() {
 
 function turnClick(square) { //square es el td en este caso. Turnclick le pasa el objeto clickeado como parametro. Square es el objeto q tiene las propuedades del td
 	//console.log(square.target.id)
-	turn(square.target.id, huPlayer)
+	if (typeof origBoard[square.target.id] == 'number') { //si el valor es numerico, nadie jugo en ese cuadrado
+		if(turn(square.target.id, huPlayer)){
+		  if (!checkTie()) {
+			turn(bestSpot(emptySquares().length), aiPlayer) // le pasa el mejor lugar
+		  } //revisa si hay un empate
+		} 
+	}
 }
 
 function turn(squareId, player){
@@ -37,7 +43,11 @@ function turn(squareId, player){
 	origBoard[squareId] = player;
 	document.getElementById(squareId).innerText = player; //para plancharlo en lo q se ve, q es el html.
 	let gameWon = checkWin(origBoard, player);
-	if (gameWon) gameOver(gameWon);
+	if (gameWon) {
+		gameOver(gameWon);
+		return false;
+	}
+	return true;
 }
 
 function checkWin(board, player) { //board es la info del tablero actual y player es el q hizo la ultima jugada
@@ -64,10 +74,50 @@ metodo entries: es usado para retornar un array que consiste en las propiedades
 //every: determina si todos los elementos en el array y ejecuta una función (con una condicion)
 		if (win.every(elem => plays.indexOf(elem) > -1)) { //es una funcion de busqueda que devuelve -1 si no encontro el valor o el valor del indice donde esta la palabra
 			gameWon = {index: index, player: player}; //gano el player!
-			break;}	
-		return gameWon;
+			break;}		
 		}
+	return gameWon;
+	}
+
+function gameOver(gameWon) {
+	for (let index of winCombos[gameWon.index]){
+		document.getElementById(index).style.backgroundColor = gameWon.player == huPlayer ? "blue" : "red";
+	}
+
+	for (let i = 0; i < cells.length; i++) {
+		cells[i].removeEventListener('click',turnClick, false) //ya no escuches mas!
+	}
+	declareWinner(gameWon.player == huPlayer ? "Ganaste Campeon!" : "Perdiste!!!");
+
 }
+
+function declareWinner(who){
+	document.querySelector(".endgame").style.display = "block";
+	document.querySelector(".endgame .text").innerText = who;
+}
+
+function emptySquares(){
+	return origBoard.filter(s => typeof s == 'number'); //va recortandoe l origboard donde vos jugaste
+}
+
+function bestSpot(length){
+	index = Math.floor(Math.random()*length);
+	console.log(index)
+	return emptySquares()[index];
+}
+
+function checkTie(){
+	if (emptySquares().length == 0) {
+		for (var i=0; i<cells.length; i++) {
+			cells[i].style.backgroundColor = "green";
+			cells[i].removeEventListener('click', turnClick, false);
+		}
+		declareWinner("Empate")
+		return true;
+	}
+	return false;
+}
+
 
 /*
 Arrow Function const add = (a, b) => (a + b)  
