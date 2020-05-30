@@ -1,3 +1,8 @@
+html, body{
+	height: 100%;
+	margin: 0;
+}
+
 td{
 	border: 2px solid #333;
 	height: 100px;
@@ -9,12 +14,21 @@ td{
 	cursor: pointer;
 }
 
+#box-container {
+    display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-direction: column-reverse;
+	height: 100%;
+}
+
+.myButton{
+	margin-bottom: 50px;
+}
+
+
 table {
 	border-collapse: collapse;
-	position: absolute;
-	left: 50%;
-	margin-left: -155px;
-	top: 50px;
 }
 
 table tr:first-child td {
@@ -38,27 +52,14 @@ table tr td:last-child {
 .endgame {
 	display: none;
 	width: 200px;
-	top: 120px;
 	background-color: rgba(205,133,63, 0.8);
-	position: absolute;
-	left: 50%
-	margin-left: -100px;
 	padding-top: 50px;
 	padding-bottom: 50px;
 	text-align: center;
 	border-radius: 5px;
 	color: white;
 	font-size: 2em;
+	margin-top: 50px;
 }
-
-
-
-
-
-
-
-
-
-
 
 }
